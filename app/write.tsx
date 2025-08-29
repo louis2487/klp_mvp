@@ -45,7 +45,7 @@ export default function PostWrite() {
         imageUrl = data.url;
       }
       await Posts.create({ title, content, image_url: imageUrl }, token);
-      router.replace("/list");
+      router.back();
     } catch (e: any) {
       Alert.alert("업로드 실패", e?.message ?? "잠시 후 다시 시도해주세요");
     }

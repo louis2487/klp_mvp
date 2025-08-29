@@ -1,5 +1,6 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { Link } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, Pressable, RefreshControl, Text, View } from "react-native";
 import PostCard from "../components/ui/postcard";
 import { Posts, type Post } from "../lib/api";
@@ -18,6 +19,17 @@ export default function Postlist() {
   useEffect(() => {
     load(true);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setRefreshing(true);
+      (async () => {
+        await load(true);
+        setRefreshing(false);
+      })();
+    }, [])
+  );
+
 
   return (
     <View style={{ flex: 1 }}>
