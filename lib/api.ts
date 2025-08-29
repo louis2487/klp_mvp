@@ -85,4 +85,21 @@ import { clearToken } from "../store/authSlice";
       return data;
     },
   };
+  export type Comment = {
+    id: number;
+    post_id: number;
+    user_id: number;
+    content: string;
+    created_at: string; 
+  };
+  
+  export const Comments = {
+    list: (postId: number, cursor?: string, limit = 20) =>
+      api.get(`/community/posts/${postId}/comments`, { params: { cursor, limit } })
+         .then(r => r.data as { items: Comment[]; next_cursor?: string }),
+    create: (postId: number, content: string, token: string) =>
+      api.post(`/community/posts/${postId}/comments`, { content }, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then(r => r.data as Comment),
+  };
   

@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import Comment from "../components/ui/comment";
 import IdPostCard from "../components/ui/idpostcard";
 import { Posts, type Post } from "../lib/api";
 
@@ -24,6 +25,8 @@ export default function PostDetail() {
   return (
     <View style={{ flex: 1 }}>
       <IdPostCard post={post} />
+      <Comment postId={post.id} />
     </View>
+  
   );
 }

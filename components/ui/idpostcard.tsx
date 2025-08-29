@@ -5,7 +5,7 @@ import type { Post } from "../../lib/api";
 export default function Postcard_detail({ post }: { post: Post }) {
   return (
     <Link href={{ pathname: "/[id]", params: { id: post.id } }} asChild>
-      <Pressable style={{ flex: 1, borderBottomWidth: 1, borderColor: "#eee", backgroundColor: "#fff", padding: 12 }}>
+      <Pressable style={{ flex: 0.9, borderBottomWidth: 1, borderColor: "#eee", backgroundColor: "#fff", padding: 12 }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
           <Text style={{ fontWeight: "600" }}>{post.author.username}</Text>
           <Text style={{ color: "#666", fontSize: 12 }}>
