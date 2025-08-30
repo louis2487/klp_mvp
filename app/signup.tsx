@@ -11,6 +11,7 @@ export default function SignupScreen() {
   const submit = async () => {
     try {
       await Auth.signUp(email, password, username);
+      Alert.alert("회원가입 성공");
       router.replace("/login");
     } catch (e: any) {
       Alert.alert("가입 실패", e?.response?.data?.detail ?? "잠시 후 다시 시도");

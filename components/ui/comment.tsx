@@ -8,7 +8,7 @@ type Props = { postId: number };
 
 export default function Comment({ postId }: Props) {
   const token = useSelector((s: RootState) => s.auth.token);
-  const username = useSelector((s: RootState) => s.auth.username); 
+  const username = useSelector((s: RootState) => s.auth.username);
   const [text, setText] = useState("");
   const [items, setItems] = useState<Comment[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
@@ -50,7 +50,8 @@ export default function Comment({ postId }: Props) {
     const temp: Comment = {
       id: -Date.now(),
       post_id: postId,
-      user_id: -1, 
+      user_id: -1,
+      username: username ?? "나",
       content: value,
       created_at: new Date().toISOString(),
     };
@@ -76,9 +77,7 @@ export default function Comment({ postId }: Props) {
 
   const renderItem = ({ item }: { item: Comment }) => (
     <View style={{ paddingVertical: 8, borderBottomWidth: 0.5, borderColor: "#ddd" }}>
-      <Text style={{ fontWeight: "600" }}>
-        {item.id < 0 ? (username ?? "나") : `#${item.user_id}`}
-      </Text>
+      <Text style={{ fontWeight: "600" }}>{item.username}</Text>
       <Text style={{ marginTop: 4 }}>{item.content}</Text>
       <Text style={{ marginTop: 4, color: "#666", fontSize: 12 }}>
         {new Date(item.created_at).toLocaleString()}
@@ -88,17 +87,6 @@ export default function Comment({ postId }: Props) {
 
   return (
     <View style={{ gap: 12 }}>
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <TextInput
-          value={text}
-          onChangeText={setText}
-          placeholder={token ? "댓글을 입력하세요" : "로그인 후 댓글 작성 가능"}
-          editable={!!token}
-          style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8 }}
-        />
-        <Button title="등록" onPress={onSubmit} disabled={!canSend} />
-      </View>
-
       <FlatList
         data={items}
         keyExtractor={(it) => String(it.id)}
@@ -106,9 +94,19 @@ export default function Comment({ postId }: Props) {
         onEndReachedThreshold={0.3}
         onEndReached={() => fetchMore()}
         ListFooterComponent={
-          loading ? <Text style={{ textAlign: "center", padding: 12 }}>불러오는 중…</Text> : null
+          loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white" }}>불러오는 중…</Text> : null
         }
       />
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          placeholder={token ? "댓글을 입력하세요" : "로그인 후 댓글 작성 가능"}
+          editable={!!token}
+          style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white"}}
+        />
+        <Button title="등록" onPress={onSubmit} disabled={!canSend} />
+      </View>
     </View>
   );
 }

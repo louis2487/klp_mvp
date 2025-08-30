@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 16.18.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "cache": { "disabled": true }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "image": "latest",
+        "ndk" : "27.1.12297006",  
+        "buildType": "app-bundle"
+      }
+    },
+    "production": {
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

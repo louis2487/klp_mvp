@@ -15,6 +15,7 @@ export default function LoginScreen() {
       const res = await Auth.logIn(username, password);
       if (!res?.token) throw new Error("NO_TOKEN");
       dispatch(setToken({ token: res.token, username }));
+      Alert.alert("로그인 성공");
       router.replace("/list");
     } catch (e: any) {
       Alert.alert("로그인 실패", e?.response?.data?.detail ?? "아이디 또는 비밀번호를 확인하세요");

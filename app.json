@@ -7,17 +7,18 @@
     "icon": "./assets/images/icon.png",
     "scheme": "mvp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "softwareKeyboardLayoutMode": "resizeMode",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "softwareKeyboardLayoutMode": "pan"
+        "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.smartgauge.mvp"
     },
     "web": {
       "bundler": "metro",
@@ -34,10 +35,25 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      ["expo-build-properties", {             
+        "android": {
+          "compileSdkVersion": 35,
+          "targetSdkVersion": 35,
+          "buildToolsVersion": "35.0.0",
+          "kotlinVersion": "2.0.21"
+        }
+      }],
+      "expo-dev-client"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7e453f68-12ca-4c44-97ae-06a0b7178649"
+      }
     }
   }
 }
