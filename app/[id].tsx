@@ -27,6 +27,5 @@ export default function PostDetail() {
       <IdPostCard post={post} />
       <Comment postId={post.id} />
     </View>
-  
   );
 }

@@ -16,6 +16,7 @@ export default function Comment({ postId }: Props) {
   const [hasMore, setHasMore] = useState(true);
   const loadingRef = useRef(false);
 
+
   const canSend = useMemo(() => !!token && text.trim().length > 0, [token, text]);
 
   const fetchMore = async () => {
@@ -86,27 +87,34 @@ export default function Comment({ postId }: Props) {
   );
 
   return (
-    <View style={{ gap: 12 }}>
-      <FlatList
-        data={items}
-        keyExtractor={(it) => String(it.id)}
-        renderItem={renderItem}
-        onEndReachedThreshold={0.3}
-        onEndReached={() => fetchMore()}
-        ListFooterComponent={
-          loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white" }}>불러오는 중…</Text> : null
-        }
-      />
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <TextInput
-          value={text}
-          onChangeText={setText}
-          placeholder={token ? "댓글을 입력하세요" : "로그인 후 댓글 작성 가능"}
-          editable={!!token}
-          style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white"}}
+      <View style={{ gap: 12, padding: 10}}>
+        <FlatList
+          data={items}
+          inverted
+          keyExtractor={(it) => String(it.id)}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.3}
+          onEndReached={() => fetchMore()}
+          ListFooterComponent={
+            loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white" }}>불러오는 중…</Text> : null
+          }
+           keyboardShouldPersistTaps="handled"
         />
-        <Button title="등록" onPress={onSubmit} disabled={!canSend} />
+        <View
+         
+          style={{ flexDirection: "row", gap: 8, padding: 8, backgroundColor: "white", borderTopWidth: 1, borderColor: "#eee" }}
+        >
+          <View style={{ flexDirection: "row", gap: 8 }}>
+            <TextInput
+              value={text}
+              onChangeText={setText}
+              placeholder={token ? "위 포스트에 대한 의견이나 생각이 있나요?" : "로그인 후 작성 가능"}
+              editable={!!token}
+              style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white", minHeight:40 }}
+            />
+            <Button title="등록" onPress={onSubmit} disabled={!canSend} />
+          </View>
+        </View>
       </View>
-    </View>
   );
 }

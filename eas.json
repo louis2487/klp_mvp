@@ -15,7 +15,7 @@
       "android": {
         "image": "latest",
         "ndk" : "27.1.12297006",  
-        "buildType": "app-bundle"
+        "buildType": "apk"
       }
     },
     "production": {
