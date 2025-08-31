@@ -1,50 +1,42 @@
-# Welcome to your Expo app 👋
+# 커뮤니티 앱(MVP)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 1. 프로젝트 팀원
+### **기간** : 25/08/25 - 25/08/31(1주)
+### **개발자** : 조홍래(APP DEVELOPER) 1인 총괄 
+### **깃허브** : https://github.com/louis2487
+### **이메일** : 36y4ws7@naver.com
 
-## Get started
+## 2. 프로젝트 개요
+### **주제** : 일주일 안에 간단한 커뮤니티 앱 MVP 수준 구현
+### **기능** : 회원가입/로그인, 글(목록/상세/작성), 이미지 첨부, 댓글 작성 및 읽기
+### **개발 동기** : 케이엘피 리액트네이티브 앱 개발자 직무에 대한 실무 적합성 과제 테스트 
 
-1. Install dependencies
+## 3. 사용 기술
+## **RN Expo(UI + Activity) - Axio fetch(Client) - Fast API(Server) - PostgreSQL(DB)**
+## **Hosting : Reilway**
+## **File Storage : Reilway Volume** 
 
-   ```bash
-   npm install
-   ```
+## 4. 유저 흐름
+![회원가입](./assets/README/회원가입.jpg)
+![로그인](./assets/README/로그인.jpg)
+![목록](./assets/README/목록.jpg)
+![상세](./assets/README/상세.jpg)
+![작성](./assets/README/작성.jpg)
+![로그아웃](./assets/README/로그아웃.jpg)
 
-2. Start the app
+## 5. API 요약
+### **5.1 인증**
+#### POST /community/signup : 회원가입
+#### POST /community/login : 로그인
 
-   ```bash
-   npx expo start
-   ```
+### **5.2 게시글**
+#### GET /community/posts: 목록
+#### GET/community/posts/${id} 상세
+#### POST /community/posts : 작성
 
-In the output, you'll find options to open the app in a
+### **5.3 댓글**
+#### POST /community/posts/${postId}/comments : 댓글 작성  
+#### GET /community/posts/${postId}/comments : 댓글 읽기
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 6. 시연 영상
+### (https://www.youtube.com/shorts/7X0e7kNGXls)
