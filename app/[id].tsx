@@ -25,6 +25,7 @@ export default function PostDetail() {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.select({ ios: "padding", android: "height" }) as any}
+      keyboardVerticalOffset={45}
     >
       <Comment postId={post.id} header={<IdPostCard post={post} />} />
     </KeyboardAvoidingView>

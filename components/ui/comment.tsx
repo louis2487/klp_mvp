@@ -18,6 +18,7 @@ export default function Comment({ postId, header }: Props) {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const loadingRef = useRef(false);
+  const [inputH, setInputH] = useState(56);
 
   const insets = useSafeAreaInsets();
   const hasComments = items.length > 0;
@@ -83,7 +84,7 @@ export default function Comment({ postId, header }: Props) {
   };
 
   const renderItem = ({ item }: { item: Comment }) => (
-    <View style={{ paddingVertical: 8, borderBottomWidth: 0.5, borderColor: "#ddd",marginLeft: 8 }}>
+    <View style={{ paddingVertical: 8, borderBottomWidth: 0.5, borderColor: "#ddd", marginLeft: 8 }}>
       <Text style={{ fontWeight: "600" }}>{item.username}</Text>
       <Text style={{ marginTop: 4 }}>{item.content}</Text>
       <Text style={{ marginTop: 4, color: "#666", fontSize: 12 }}>
@@ -93,7 +94,8 @@ export default function Comment({ postId, header }: Props) {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: BG }}>
+    <View
+      style={{ flex: 1, backgroundColor: BG }}>
       <FlatList
         data={items}
         keyExtractor={(it) => String(it.id)}
@@ -103,7 +105,6 @@ export default function Comment({ postId, header }: Props) {
         ListHeaderComponent={header ?? null}
         ListFooterComponent={
           loading ? <Text style={{
-            flex: 1,
             textAlign: "center",
             justifyContent: "space-around",
             padding: 12,
@@ -114,21 +115,26 @@ export default function Comment({ postId, header }: Props) {
         maintainVisibleContentPosition={{ minIndexForVisible: 1 }}
         style={{ backgroundColor: BG }}
         contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 12 + 40 + insets.bottom + 8,
+          paddingBottom: inputH + insets.bottom,
           backgroundColor: BG,
         }}
       />
-      <View style={{
-        flexDirection: "row",
-        gap: 8,
-        padding: 8,
-        backgroundColor: "white",
-        borderTopWidth: 1,
-        borderColor: "#eee",
-        minHeight: 40,
-        marginBottom: Math.max(6, insets.bottom + 4)
-      }}>
+      <View
+        onLayout={e => {
+          const h = e.nativeEvent.layout.height;
+          if (h !== inputH) setInputH(h);
+        }}
+        style={{
+          flexDirection: "row",
+          gap: 8,
+          padding: 8,
+          backgroundColor: "white",
+          borderTopWidth: 1,
+          borderColor: "#eee",
+          minHeight: 40,
+          marginBottom:40
+
+        }}>
         <TextInput
           value={text}
           onChangeText={setText}
