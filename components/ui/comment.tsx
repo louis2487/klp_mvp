@@ -2,11 +2,14 @@ import { Comments, type Comment } from "@/lib/api";
 import type { RootState } from "@/store";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, Button, FlatList, Keyboard, Text, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
+type Props = {
+  postId: number;
+  header?: React.ReactElement | React.ComponentType<any> | null;
+};
 
-type Props = { postId: number };
-
-export default function Comment({ postId }: Props) {
+export default function Comment({ postId, header }: Props) {
   const token = useSelector((s: RootState) => s.auth.token);
   const username = useSelector((s: RootState) => s.auth.username);
   const [text, setText] = useState("");
@@ -16,6 +19,9 @@ export default function Comment({ postId }: Props) {
   const [hasMore, setHasMore] = useState(true);
   const loadingRef = useRef(false);
 
+  const insets = useSafeAreaInsets();
+  const hasComments = items.length > 0;
+  const BG = hasComments ? "#f3f4f6" : "#ffffff";
 
   const canSend = useMemo(() => !!token && text.trim().length > 0, [token, text]);
 
@@ -77,7 +83,7 @@ export default function Comment({ postId }: Props) {
   };
 
   const renderItem = ({ item }: { item: Comment }) => (
-    <View style={{ paddingVertical: 8, borderBottomWidth: 0.5, borderColor: "#ddd" }}>
+    <View style={{ paddingVertical: 8, borderBottomWidth: 0.5, borderColor: "#ddd",marginLeft: 8 }}>
       <Text style={{ fontWeight: "600" }}>{item.username}</Text>
       <Text style={{ marginTop: 4 }}>{item.content}</Text>
       <Text style={{ marginTop: 4, color: "#666", fontSize: 12 }}>
@@ -87,30 +93,51 @@ export default function Comment({ postId }: Props) {
   );
 
   return (
-      <View style={{ gap: 12}}>
-        <FlatList
-          data={items}
-          inverted
-          keyExtractor={(it) => String(it.id)}
-          renderItem={renderItem}
-          onEndReachedThreshold={0.3}
-          onEndReached={() => fetchMore()}
-          ListFooterComponent={
-            loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white", marginLeft: 20 }}>불러오는 중…</Text> : null
-          }
-           keyboardShouldPersistTaps="handled"
-           contentContainerStyle={{ paddingBottom: 72 }}
+    <View style={{ flex: 1, backgroundColor: BG }}>
+      <FlatList
+        data={items}
+        keyExtractor={(it) => String(it.id)}
+        renderItem={renderItem}
+        onEndReachedThreshold={0.3}
+        onEndReached={() => fetchMore()}
+        ListHeaderComponent={header ?? null}
+        ListFooterComponent={
+          loading ? <Text style={{
+            flex: 1,
+            textAlign: "center",
+            justifyContent: "space-around",
+            padding: 12,
+            borderColor: "black",
+          }}>불러오는 중…</Text> : null
+        }
+        keyboardShouldPersistTaps="handled"
+        maintainVisibleContentPosition={{ minIndexForVisible: 1 }}
+        style={{ backgroundColor: BG }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 12 + 40 + insets.bottom + 8,
+          backgroundColor: BG,
+        }}
+      />
+      <View style={{
+        flexDirection: "row",
+        gap: 8,
+        padding: 8,
+        backgroundColor: "white",
+        borderTopWidth: 1,
+        borderColor: "#eee",
+        minHeight: 40,
+        marginBottom: Math.max(6, insets.bottom + 4)
+      }}>
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          placeholder={token ? "위 포스트에 대한 의견이나 생각이 있나요?" : "로그인 후 작성 가능"}
+          editable={!!token}
+          style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white" }}
         />
-        <View style={{ flexDirection: "row", gap: 8, padding: 8, backgroundColor: "white", borderTopWidth: 1, borderColor: "#eee", minHeight: 40 }}>
-            <TextInput
-              value={text}
-              onChangeText={setText}
-              placeholder={token ? "위 포스트에 대한 의견이나 생각이 있나요?" : "로그인 후 작성 가능"}
-              editable={!!token}
-              style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white" }}
-            />
-            <Button title="등록" onPress={onSubmit} disabled={!canSend} />
-        </View>
+        <Button title="등록" onPress={onSubmit} disabled={!canSend} />
       </View>
+    </View>
   );
 }
