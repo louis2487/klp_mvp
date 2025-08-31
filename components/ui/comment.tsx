@@ -87,7 +87,7 @@ export default function Comment({ postId }: Props) {
   );
 
   return (
-      <View style={{ gap: 12, padding: 10}}>
+      <View style={{ gap: 12}}>
         <FlatList
           data={items}
           inverted
@@ -96,24 +96,20 @@ export default function Comment({ postId }: Props) {
           onEndReachedThreshold={0.3}
           onEndReached={() => fetchMore()}
           ListFooterComponent={
-            loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white" }}>불러오는 중…</Text> : null
+            loading ? <Text style={{ textAlign: "center", padding: 12, borderColor: "black", backgroundColor: "white", marginLeft: 20 }}>불러오는 중…</Text> : null
           }
            keyboardShouldPersistTaps="handled"
+           contentContainerStyle={{ paddingBottom: 72 }}
         />
-        <View
-         
-          style={{ flexDirection: "row", gap: 8, padding: 8, backgroundColor: "white", borderTopWidth: 1, borderColor: "#eee" }}
-        >
-          <View style={{ flexDirection: "row", gap: 8 }}>
+        <View style={{ flexDirection: "row", gap: 8, padding: 8, backgroundColor: "white", borderTopWidth: 1, borderColor: "#eee", minHeight: 40 }}>
             <TextInput
               value={text}
               onChangeText={setText}
               placeholder={token ? "위 포스트에 대한 의견이나 생각이 있나요?" : "로그인 후 작성 가능"}
               editable={!!token}
-              style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white", minHeight:40 }}
+              style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8, borderColor: "black", backgroundColor: "white" }}
             />
             <Button title="등록" onPress={onSubmit} disabled={!canSend} />
-          </View>
         </View>
       </View>
   );
